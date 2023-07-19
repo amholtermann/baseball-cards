@@ -1,3 +1,4 @@
+import BottomTriangle from "./BottomTriangle";
 function PlayerCard(Props) {
   // return (<li key={Props.key}>{Props.playerName}</li>)
   return (
@@ -38,6 +39,7 @@ function PlayerCard(Props) {
         >
           <h5 className="card-title"></h5>
           <p className="card-text"></p>
+          <BottomTriangle></BottomTriangle>
         </div>
         <div className="card-footer">
           {/* <img src={Props.playerObj.icon} style={{maxWidth:"15%",float:"left"}} alt="..." /> */}
