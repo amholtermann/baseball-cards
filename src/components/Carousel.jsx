@@ -10,19 +10,17 @@ function Carousel(Props) {
           className="row row-cols-1 row-cols-md-3 g-4"
           style={{ flexWrap: "nowrap", overflowX: "scroll" }}
         >
-          {Props.cardData
-            .sort((a, b) => (a.stat.war > b.stat.war ? -1 : 1)) //Highest First
-            .map((playerObj, playerIndex) => {
-              return (
-                <PlayerCard
-                  currentCard={Props.currentCard}
-                  key={playerIndex}
-                  playerIndex={playerIndex}
-                  playerObj={playerObj}
-                  setCurrentCard={Props.setCurrentCard}
-                />
-              );
-            })}
+          {Props.cardData.map((playerObj, playerIndex) => {
+            return (
+              <PlayerCard
+                currentCard={Props.currentCard}
+                key={playerIndex}
+                playerIndex={playerIndex}
+                playerObj={playerObj}
+                setCurrentCard={Props.setCurrentCard}
+              />
+            );
+          })}
         </div>
       ) : (
         <div className="container">

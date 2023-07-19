@@ -17,6 +17,7 @@ function App() {
     const statRoster = await Promise.all(
       responseRoster.roster.map(async (person, personIndex) => {
         const pId = person.person.id;
+        const jerseyNumber = person.jerseyNumber;
         const pName = person.person.fullName;
         const responseStats = await fetchPlayerStats(pId);
         let war = 0;
@@ -31,18 +32,31 @@ function App() {
           stat: { war: war },
           player: { id: pId, fullName: pName },
           id: personIndex,
+          jerseyNumber: jerseyNumber,
           icon:
             "https://midfield.mlbstatic.com/v1/people/" +
             pId +
             "/spots/120?zoom=1.2",
+          headshot:
+            "https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/" +
+            pId +
+            "/headshot/67/current",
           pic:
+            "https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:action:hero:current.jpg/q_auto:good,w_1500/v1/people/" +
+            pId +
+            "/action/hero/current",
+          pic2:
             "https://img.mlbstatic.com/mlb-photos/image/upload/w_700,q_auto:good/v1/people/" +
             pId +
             "/action/hero/current",
+          link: "https://www.mlb.com/player/" + pId,
         };
       })
     );
-    return setCardData(statRoster);
+    const sortedRoster = statRoster.sort(
+      (a, b) => (a.stat.war > b.stat.war ? -1 : 1) //Highest First
+    );
+    return setCardData(sortedRoster);
   };
   return (
     <>

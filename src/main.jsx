@@ -7,7 +7,7 @@ import ErrorBoundary from "./ErrorBoundary.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ErrorBoundary fallback=" Error ">
+    <ErrorBoundary fallback="Error Loading">
       <App />
     </ErrorBoundary>
   </React.StrictMode>
