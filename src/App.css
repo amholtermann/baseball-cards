@@ -53,3 +53,8 @@
   background-color: #ff5910;
   color: white;
 }
+.spinner-centered {
+  position: relative;
+  top: 50%;
+  left: 50%;
+}

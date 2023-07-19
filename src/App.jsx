@@ -1,43 +1,48 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import Header from "./components/Header";
 import Carousel from "./components/Carousel";
 import { useState, useEffect } from "react";
+import { fetchRoster } from "./api/roster";
+import { fetchPlayerStats } from "./api/stats";
 
 function App() {
   const [currentCard, setCurrentCard] = useState(0);
-  const [cardData, setCardData] = useState([
-    // https://www.baseball-reference.com/players/a/alonspe01.shtml
-    // https://www.baseball-reference.com/players/b/batybr01.shtml
-    // https://www.baseball-reference.com/players/o/ottavad01.shtml
-    {
-      stat: { war: 1 },
-      player: { id: 683146, fullName: "Brett Baty" },
-      id: 0,
-      name: "me",
-      war: 1.0,
-      icon: "https://midfield.mlbstatic.com/v1/people/683146/spots/120?zoom=1.2",
-      pic: "https://img.mlbstatic.com/mlb-photos/image/upload/w_700,q_auto:good/v1/people/683146/action/hero/current",
-    },
-  ]);
+  const [cardData, setCardData] = useState([]);
 
   useEffect(() => {
     fetchUserData();
   }, []);
 
-  const fetchUserData = () => {
-    fetch(
-      "https://statsapi.mlb.com/api/v1/stats?stats=sabermetrics&group=hitting&sportId=1&season=2023&teamId=121"
-    )
-      .then((response) => {
-        //console.log(response.json());
-        return response.json();
+  const fetchUserData = async () => {
+    const responseRoster = await fetchRoster(121);
+    const statRoster = await Promise.all(
+      responseRoster.roster.map(async (person, personIndex) => {
+        const pId = person.person.id;
+        const pName = person.person.fullName;
+        const responseStats = await fetchPlayerStats(pId);
+        let war = 0;
+        if (
+          Object.hasOwn(responseStats, "people") &&
+          Object.hasOwn(responseStats.people, "0") &&
+          Object.hasOwn(responseStats.people[0], "stats")
+        ) {
+          war = responseStats.people[0].stats[0].splits[0].stat.war;
+        }
+        return {
+          stat: { war: war },
+          player: { id: pId, fullName: pName },
+          id: personIndex,
+          icon:
+            "https://midfield.mlbstatic.com/v1/people/" +
+            pId +
+            "/spots/120?zoom=1.2",
+          pic:
+            "https://img.mlbstatic.com/mlb-photos/image/upload/w_700,q_auto:good/v1/people/" +
+            pId +
+            "/action/hero/current",
+        };
       })
-      .then((data) => {
-        // console.log(data.stats[0].splits);
-        setCardData(data.stats[0].splits);
-      });
+    );
+    return setCardData(statRoster);
   };
   return (
     <>
@@ -51,28 +56,6 @@ function App() {
           />
         </div>
       </div>
-      {/*       
-      <div>
-        <a href="https://vitejs.dev" rel="noreferrer" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" rel="noreferrer" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-       */}
     </>
   );
 }
