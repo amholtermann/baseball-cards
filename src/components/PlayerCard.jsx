@@ -1,4 +1,5 @@
-import BottomTriangle from "./BottomTriangle";
+import TriangleBottom from "./TriangleBottom";
+import DiscountBadge from "./DiscountBadge";
 function PlayerCard(Props) {
   // return (<li key={Props.key}>{Props.playerName}</li>)
   return (
@@ -30,6 +31,7 @@ function PlayerCard(Props) {
         <div
           className="card-body"
           style={{
+            cursor: "pointer",
             backgroundImage: "url('" + Props.playerObj.pic + "')",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
@@ -37,9 +39,18 @@ function PlayerCard(Props) {
             height: "12rem",
           }}
         >
-          <h5 className="card-title"></h5>
-          <p className="card-text"></p>
-          <BottomTriangle></BottomTriangle>
+          {Props.playerIndex < 5 && <DiscountBadge></DiscountBadge>}
+          <TriangleBottom></TriangleBottom>
+          <div
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              marginTop: "4.5rem",
+              position: "relative",
+            }}
+          >
+            BUY CARD
+          </div>
         </div>
         <div className="card-footer">
           {/* <img src={Props.playerObj.icon} style={{maxWidth:"15%",float:"left"}} alt="..." /> */}
@@ -63,6 +74,20 @@ function PlayerCard(Props) {
                 style={{ display: "block" }}
               >
                 {Props.playerObj.player.fullName}
+                &nbsp;
+                <a
+                  href={Props.playerObj.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="right"
+                  data-bs-title="More Stats"
+                >
+                  <i
+                    className="bi bi-info-circle"
+                    style={{ color: "cornflowerblue" }}
+                  ></i>
+                </a>
               </small>
               <small className="text-body-secondary align-middle">
                 Total War: {Props.playerObj.stat.war}
