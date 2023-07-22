@@ -1,4 +1,4 @@
-export function TriangleBottom() {
+export function TriangleBottom(Props) {
   return (
     <div
       className="triangle-up"
@@ -6,6 +6,8 @@ export function TriangleBottom() {
         top: "7rem",
         position: "relative",
         margin: "0rem 0rem 0rem -1rem",
+        borderLeftWidth: Props.currentTriangleHalfBase + "px",
+        borderRightWidth: Props.currentTriangleHalfBase + "px",
       }}
     ></div>
   );

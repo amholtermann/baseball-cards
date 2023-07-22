@@ -1,12 +1,14 @@
 import TriangleBottom from "./TriangleBottom";
 import DiscountBadge from "./DiscountBadge";
-function PlayerCard(Props) {
+import { forwardRef } from "react";
+
+const PlayerCard = forwardRef(function (Props, ref) {
   // return (<li key={Props.key}>{Props.playerName}</li>)
   return (
     <div
       className="col"
       style={{
-        marginLeft: Props.playerIndex !== 0 ? "-20rem" : "",
+        marginLeft: Props.playerIndex !== 0 ? "-28%" : "",
         zIndex:
           Props.currentCard !== Props.playerIndex
             ? Props.currentCard < Props.playerIndex
@@ -38,9 +40,12 @@ function PlayerCard(Props) {
             backgroundPosition: "center",
             height: "12rem",
           }}
+          ref={ref}
         >
           {Props.playerIndex < 5 && <DiscountBadge></DiscountBadge>}
-          <TriangleBottom></TriangleBottom>
+          <TriangleBottom
+            currentTriangleHalfBase={Props.currentTriangleHalfBase}
+          ></TriangleBottom>
           <div
             style={{
               color: "white",
@@ -111,6 +116,7 @@ function PlayerCard(Props) {
       </div>
     </div>
   );
-}
+});
+PlayerCard.displayName = "PlayerCard";
 
 export default PlayerCard;
