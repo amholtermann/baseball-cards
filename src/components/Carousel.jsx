@@ -1,7 +1,23 @@
 import PlayerCard from "./PlayerCard.jsx";
-import { forwardRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
-const Carousel = forwardRef(function (Props, ref) {
+const Carousel = function (Props) {
+  const cardRef = useRef();
+  const [currentTriangleHalfBase, setTriangleHalfBase] = useState(0);
+  useEffect(() => {
+    fixCardBuy();
+    window.addEventListener("resize", fixCardBuy);
+    return () => {
+      window.removeEventListener("resize", fixCardBuy);
+    };
+  }, []);
+
+  const fixCardBuy = () => {
+    if (cardRef?.current?.clientWidth) {
+      const newBorderWidth = cardRef.current.clientWidth / 2;
+      setTriangleHalfBase(newBorderWidth);
+    }
+  };
   return (
     <div className="rounded" style={{ overflowX: "scroll" }}>
       {/* {console.log("cardData")}
@@ -14,13 +30,13 @@ const Carousel = forwardRef(function (Props, ref) {
           {Props.cardData.map((playerObj, playerIndex) => {
             return (
               <PlayerCard
-                ref={ref}
+                ref={cardRef}
                 currentCard={Props.currentCard}
                 key={playerIndex}
                 playerIndex={playerIndex}
                 playerObj={playerObj}
                 setCurrentCard={Props.setCurrentCard}
-                currentTriangleHalfBase={Props.currentTriangleHalfBase}
+                currentTriangleHalfBase={currentTriangleHalfBase}
               />
             );
           })}
@@ -40,7 +56,7 @@ const Carousel = forwardRef(function (Props, ref) {
       )}
     </div>
   );
-});
+};
 Carousel.displayName = "Carousel";
 
 export default Carousel;

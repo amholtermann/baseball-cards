@@ -1,30 +1,14 @@
 import Header from "./components/Header";
 import Carousel from "./components/Carousel";
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { useState, useLayoutEffect } from "react";
 import { fetchRoster, fetchPlayerStats } from "./api/MLBStats";
 
 function App() {
   const [currentCard, setCurrentCard] = useState(0);
   const [cardData, setCardData] = useState([]);
-  const [currentTriangleHalfBase, setTriangleHalfBase] = useState(0);
-  const cardRef = useRef();
   useLayoutEffect(() => {
     fetchUserData();
   }, []);
-  useEffect(() => {
-    fixCardBuy();
-    window.addEventListener("resize", fixCardBuy);
-    return () => {
-      window.removeEventListener("resize", fixCardBuy);
-    };
-  }, []);
-
-  const fixCardBuy = () => {
-    if (cardRef?.current?.clientWidth) {
-      const newBorderWidth = cardRef.current.clientWidth / 2;
-      setTriangleHalfBase(newBorderWidth);
-    }
-  };
 
   const fetchUserData = async () => {
     const responseRoster = await fetchRoster(121);
@@ -82,8 +66,6 @@ function App() {
             currentCard={currentCard}
             cardData={cardData}
             setCurrentCard={setCurrentCard}
-            currentTriangleHalfBase={currentTriangleHalfBase}
-            ref={cardRef}
           />
         </div>
       </div>
