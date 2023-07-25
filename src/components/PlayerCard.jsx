@@ -39,11 +39,14 @@ const PlayerCard = forwardRef(function (Props, ref) {
             // marginRight: "calc(var(--bs-gutter-x) * -0.5)",
             zIndex: 1060,
             width: "7%",
+            color: "white",
           }}
           ref={scrollLeft}
           onMouseEnter={() => StartScrolling(-1)}
           onMouseLeave={() => StopScrolling()}
-        ></div>
+        >
+          &lt;-
+        </div>
       )}
       <div
         className="col"
@@ -167,11 +170,14 @@ const PlayerCard = forwardRef(function (Props, ref) {
             // marginLeft: Props.currentTriangleHalfBase * -2 * 0.2,
             zIndex: 1060,
             width: "7%",
+            color: "white",
           }}
           ref={scrollRight}
           onMouseEnter={() => StartScrolling(1)}
           onMouseLeave={() => StopScrolling()}
-        ></div>
+        >
+          -&gt;
+        </div>
       )}
     </>
   );
