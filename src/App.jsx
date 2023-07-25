@@ -6,8 +6,9 @@ import { fetchRoster, fetchPlayerStats } from "./api/MLBStats";
 function App() {
   const [currentCard, setCurrentCard] = useState(0);
   const [cardData, setCardData] = useState([]);
+  const [dataFetched, setDataFetched] = useState(false);
   useLayoutEffect(() => {
-    fetchUserData();
+    fetchUserData().then(() => setDataFetched(true));
   }, []);
 
   const fetchUserData = async () => {
@@ -63,6 +64,7 @@ function App() {
         <Header />
         <div className="container">
           <Carousel
+            dataFetched={dataFetched}
             currentCard={currentCard}
             cardData={cardData}
             setCurrentCard={setCurrentCard}

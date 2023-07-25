@@ -2,27 +2,45 @@ import PlayerCard from "./PlayerCard.jsx";
 import { useState, useEffect, useRef } from "react";
 
 const Carousel = function (Props) {
+  const carouselRef = useRef();
   const cardRef = useRef();
+  const triangleRef = useRef();
+  const scrollLeft = useRef();
+  const scrollRight = useRef();
   const [currentTriangleHalfBase, setTriangleHalfBase] = useState(0);
-  useEffect(() => {
-    fixCardBuy();
-    window.addEventListener("resize", fixCardBuy);
-    return () => {
-      window.removeEventListener("resize", fixCardBuy);
-    };
-  }, []);
 
-  const fixCardBuy = () => {
-    if (cardRef?.current?.clientWidth) {
-      const newBorderWidth = cardRef.current.clientWidth / 2;
-      setTriangleHalfBase(newBorderWidth);
+  useEffect(() => {
+    if (Props.dataFetched) {
+      const fixCardBuy = () => {
+        const elem = cardRef.current;
+        if (elem) {
+          const newBorderWidth = elem.clientWidth / 2;
+          setTriangleHalfBase(newBorderWidth);
+        }
+      };
+      fixCardBuy();
+      window.addEventListener("resize", fixCardBuy);
+      return () => {
+        window.removeEventListener("resize", fixCardBuy);
+      };
     }
+  }, [Props.dataFetched]);
+
+  const handleScroll = (scrollDirection) => {
+    const container = carouselRef.current;
+    if (!container) return;
+
+    const scrollAmount = 25; // Adjust the scroll speed as needed
+    container.scrollLeft += scrollAmount * scrollDirection;
   };
+
+  const BuyCard = (playerName, playerId) => {
+    alert("Buy Card for Player: " + playerName + " Id: " + playerId);
+  };
+  const totalCards = Props.cardData.length;
   return (
-    <div className="rounded" style={{ overflowX: "scroll" }}>
-      {/* {console.log("cardData")}
-      {console.log(Props.cardData)} */}
-      {Props.cardData.length && Object.hasOwn(Props.cardData[0], "player") ? (
+    <div className="rounded" style={{ overflowX: "scroll" }} ref={carouselRef}>
+      {totalCards && Object.hasOwn(Props.cardData[0], "player") ? (
         <div
           className="row row-cols-1 row-cols-md-3 g-4"
           style={{ flexWrap: "nowrap" }}
@@ -30,9 +48,12 @@ const Carousel = function (Props) {
           {Props.cardData.map((playerObj, playerIndex) => {
             return (
               <PlayerCard
-                ref={cardRef}
+                handleScroll={handleScroll}
+                ref={{ cardRef, scrollLeft, scrollRight, triangleRef }}
+                totalCards={totalCards}
                 currentCard={Props.currentCard}
                 key={playerIndex}
+                BuyCard={BuyCard}
                 playerIndex={playerIndex}
                 playerObj={playerObj}
                 setCurrentCard={Props.setCurrentCard}
@@ -57,6 +78,5 @@ const Carousel = function (Props) {
     </div>
   );
 };
-Carousel.displayName = "Carousel";
 
 export default Carousel;

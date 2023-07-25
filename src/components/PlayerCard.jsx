@@ -1,120 +1,179 @@
 import TriangleBottom from "./TriangleBottom";
 import DiscountBadge from "./DiscountBadge";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 
 const PlayerCard = forwardRef(function (Props, ref) {
-  // return (<li key={Props.key}>{Props.playerName}</li>)
+  const { cardRef, scrollLeft, scrollRight, triangleRef } = ref;
+  const [intervalIds, setIntervalIds] = useState([]);
+  /*
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        cardRef: cardRef,
+        triangleRef: triangleRef,
+      };
+    },
+    []
+  );
+  */
+  const StartScrolling = (direction) => {
+    const id = setInterval(() => Props.handleScroll(direction), 50); // Adjust the interval speed as needed
+    setIntervalIds((prevIntervalIds) => [...prevIntervalIds, id]);
+  };
+  const StopScrolling = () => {
+    intervalIds.forEach((id) => clearInterval(id));
+    setIntervalIds([]);
+  };
   return (
-    <div
-      className="col"
-      style={{
-        marginLeft: Props.playerIndex !== 0 ? "-28%" : "",
-        zIndex:
-          Props.currentCard !== Props.playerIndex
-            ? Props.currentCard < Props.playerIndex
-              ? 40 - Props.playerIndex
-              : Props.playerIndex
-            : 1030,
-      }}
-    >
-      <div
-        className="card h-100"
-        onMouseOver={() => Props.setCurrentCard(Props.playerIndex)}
-      >
-        {/* <img
-          src={
-            "https://img.mlbstatic.com/mlb-photos/image/upload/w_700,q_auto:good/v1/people/" +
-            Props.playerObj.player.id +
-            "/action/hero/current"
-          }
-          className="card-img-top img-thumbnail"
-          alt="..."
-        />  */}
+    <>
+      {Props.playerIndex === 0 && (
         <div
-          className="card-body"
+          className="col"
           style={{
-            cursor: "pointer",
-            backgroundImage: "url('" + Props.playerObj.pic + "')",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            height: "12rem",
+            position: "sticky",
+            left: 0,
+            opacity: 0.6,
+            backgroundColor: "black",
+            // marginRight: Props.currentTriangleHalfBase * -2 * 0.2,
+            // marginRight: "calc(var(--bs-gutter-x) * -0.5)",
+            zIndex: 1060,
+            width: "7%",
           }}
-          ref={ref}
+          ref={scrollLeft}
+          onMouseEnter={() => StartScrolling(-1)}
+          onMouseLeave={() => StopScrolling()}
+        ></div>
+      )}
+      <div
+        className="col"
+        style={{
+          marginLeft: Props.playerIndex !== 0 ? "-28%" : "",
+          zIndex:
+            Props.currentCard !== Props.playerIndex
+              ? Props.currentCard < Props.playerIndex
+                ? 40 - Props.playerIndex
+                : Props.playerIndex
+              : 1030,
+        }}
+      >
+        <div
+          className="card h-100"
+          onMouseOver={() => Props.setCurrentCard(Props.playerIndex)}
         >
-          {Props.playerIndex < 5 && <DiscountBadge></DiscountBadge>}
-          <TriangleBottom
-            currentTriangleHalfBase={Props.currentTriangleHalfBase}
-          ></TriangleBottom>
           <div
+            className="card-body"
+            onClick={() =>
+              Props.BuyCard(
+                Props.playerObj.player.fullName,
+                Props.playerObj.player.id
+              )
+            }
             style={{
-              color: "white",
-              fontWeight: "bold",
-              marginTop: "4.5rem",
-              position: "relative",
+              cursor: "pointer",
+              backgroundImage: "url('" + Props.playerObj.pic + "')",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              height: "12rem",
             }}
+            ref={cardRef}
           >
-            BUY CARD
-          </div>
-        </div>
-        <div className="card-footer">
-          {/* <img src={Props.playerObj.icon} style={{maxWidth:"15%",float:"left"}} alt="..." /> */}
-          <div className="row">
+            {Props.playerIndex < 5 && <DiscountBadge></DiscountBadge>}
+            <TriangleBottom
+              ref={triangleRef}
+              currentTriangleHalfBase={Props.currentTriangleHalfBase}
+            ></TriangleBottom>
             <div
-              className="col"
               style={{
-                backgroundImage:
-                  Props.currentCard !== Props.playerIndex
-                    ? Props.currentCard > Props.playerIndex
-                      ? "url('" + Props.playerObj.icon + "')"
-                      : ""
-                    : "",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "contain",
+                color: "white",
+                fontWeight: "bold",
+                marginTop: "4.5rem",
+                position: "relative",
               }}
-            ></div>
-            <div className="col-9">
-              <small
-                className="text-body-dark align-middle"
-                style={{ display: "block" }}
-              >
-                {Props.playerObj.player.fullName}
-                &nbsp;
-                <a
-                  href={Props.playerObj.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="right"
-                  data-bs-title="More Stats"
-                >
-                  <i
-                    className="bi bi-info-circle"
-                    style={{ color: "cornflowerblue" }}
-                  ></i>
-                </a>
-              </small>
-              <small className="text-body-secondary align-middle">
-                Total War: {Props.playerObj.stat.war}
-              </small>
+            >
+              BUY CARD
             </div>
+          </div>
+          <div className="card-footer">
             <div
-              className="col"
-              style={{
-                backgroundImage:
-                  Props.currentCard !== Props.playerIndex
-                    ? Props.currentCard < Props.playerIndex
-                      ? "url('" + Props.playerObj.icon + "')"
-                      : ""
-                    : "",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "contain",
-              }}
-            ></div>
+              className="row"
+              style={{ marginLeft: "0px", marginRight: "0px" }}
+            >
+              <div
+                className="col"
+                style={{
+                  backgroundImage:
+                    Props.currentCard !== Props.playerIndex
+                      ? Props.currentCard > Props.playerIndex
+                        ? "url('" + Props.playerObj.icon + "')"
+                        : ""
+                      : "",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "contain",
+                }}
+              ></div>
+              <div className="col-9">
+                <small
+                  className="text-body-dark align-middle"
+                  style={{ display: "block" }}
+                >
+                  {Props.playerObj.player.fullName}
+                  &nbsp;
+                  <a
+                    href={Props.playerObj.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="right"
+                    data-bs-title="More Stats"
+                  >
+                    <i
+                      className="bi bi-info-circle"
+                      style={{ color: "cornflowerblue" }}
+                    ></i>
+                  </a>
+                </small>
+                <small className="text-body-secondary align-middle">
+                  Total War: {Props.playerObj.stat.war}
+                </small>
+              </div>
+              <div
+                className="col"
+                style={{
+                  backgroundImage:
+                    Props.currentCard !== Props.playerIndex
+                      ? Props.currentCard < Props.playerIndex
+                        ? "url('" + Props.playerObj.icon + "')"
+                        : ""
+                      : "",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "contain",
+                }}
+              ></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {Props.playerIndex === Props.totalCards - 1 && (
+        <div
+          className="col"
+          style={{
+            position: "sticky",
+            right: 0,
+            opacity: 0.6,
+            backgroundColor: "black",
+            marginLeft: "calc(var(--bs-gutter-x) * -0.5)",
+            // marginLeft: Props.currentTriangleHalfBase * -2 * 0.2,
+            zIndex: 1060,
+            width: "7%",
+          }}
+          ref={scrollRight}
+          onMouseEnter={() => StartScrolling(1)}
+          onMouseLeave={() => StopScrolling()}
+        ></div>
+      )}
+    </>
   );
 });
 PlayerCard.displayName = "PlayerCard";
