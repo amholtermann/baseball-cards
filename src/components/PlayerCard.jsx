@@ -40,12 +40,16 @@ const PlayerCard = forwardRef(function (Props, ref) {
             zIndex: 1060,
             width: "7%",
             color: "white",
+            lineHeight: "1500%",
           }}
           ref={scrollLeft}
           onMouseEnter={() => StartScrolling(-1)}
           onMouseLeave={() => StopScrolling()}
         >
-          &lt;-
+          <i
+            className="bi bi-chevron-left"
+            style={{ color: "white", width: "1em", height: "1em" }}
+          ></i>
         </div>
       )}
       <div
@@ -82,7 +86,13 @@ const PlayerCard = forwardRef(function (Props, ref) {
             }}
             ref={cardRef}
           >
-            {Props.playerIndex < 5 && <DiscountBadge></DiscountBadge>}
+            {Props.playerIndex < 5 &&
+              Props.currentCard !== Props.playerIndex && (
+                <>
+                  <DiscountBadge direction="left"></DiscountBadge>
+                  <DiscountBadge direction="right"></DiscountBadge>
+                </>
+              )}
             <TriangleBottom
               ref={triangleRef}
               currentTriangleHalfBase={Props.currentTriangleHalfBase}
@@ -96,6 +106,17 @@ const PlayerCard = forwardRef(function (Props, ref) {
               }}
             >
               BUY CARD
+              {Props.playerIndex < 5 && (
+                <div
+                  style={{
+                    fontWeight: "normal",
+                    fontSize: "small",
+                    marginTop: "-0.4rem",
+                  }}
+                >
+                  50% OFF
+                </div>
+              )}
             </div>
           </div>
           <div className="card-footer">
@@ -171,12 +192,16 @@ const PlayerCard = forwardRef(function (Props, ref) {
             zIndex: 1060,
             width: "7%",
             color: "white",
+            lineHeight: "1500%",
           }}
           ref={scrollRight}
           onMouseEnter={() => StartScrolling(1)}
           onMouseLeave={() => StopScrolling()}
         >
-          -&gt;
+          <i
+            className="bi bi-chevron-right"
+            style={{ color: "white", width: "1em", height: "1em" }}
+          ></i>
         </div>
       )}
     </>

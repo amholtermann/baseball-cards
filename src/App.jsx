@@ -1,13 +1,13 @@
 import Header from "./components/Header";
 import Carousel from "./components/Carousel";
-import { useState, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import { fetchRoster, fetchPlayerStats } from "./api/MLBStats";
 
 function App() {
   const [currentCard, setCurrentCard] = useState(0);
   const [cardData, setCardData] = useState([]);
   const [dataFetched, setDataFetched] = useState(false);
-  useLayoutEffect(() => {
+  useEffect(() => {
     fetchUserData().then(() => setDataFetched(true));
   }, []);
 
@@ -62,7 +62,7 @@ function App() {
     <>
       <div className="mt-4 p-3 container border border-dark rounded bg-mets-primary">
         <Header />
-        <div className="container">
+        <div className="">
           <Carousel
             dataFetched={dataFetched}
             currentCard={currentCard}

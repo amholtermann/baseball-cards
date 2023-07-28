@@ -16,14 +16,13 @@
 $enable-gradients: true;
 $enable-shadows: true;
 
-$offcanvas-box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+$offcanvas-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
 
 // Customize some defaults
 $body-color: #333;
 $body-bg: #fff;
-$border-radius: .4rem;
+$border-radius: 0.4rem;
 $success: #7952b3;
-
 
 $grid-breakpoints: (
     xs: 0,
@@ -31,7 +30,7 @@ $grid-breakpoints: (
     md: 2px,
     lg: 992px,
     xl: 1200px,
-    xxl: 1400px
+    xxl: 1400px,
 );
 $container-max-widths: (
     xs: 990px,
@@ -39,60 +38,82 @@ $container-max-widths: (
     md: 992px,
     lg: 100%,
     xl: 100%,
-    xxl: 100%
+    xxl: 100%,
 );
 // Required
-@import "bootstrap/scss/_functions";
-@import "bootstrap/scss/_variables";
-@import "bootstrap/scss/_variables-dark";
-@import "bootstrap/scss/_maps";
-@import "bootstrap/scss/_mixins";
-@import "bootstrap/scss/_utilities";
-@import "bootstrap/scss/_root";
-@import "bootstrap/scss/_reboot";
+@import 'bootstrap/scss/_functions';
+@import 'bootstrap/scss/_variables';
+@import 'bootstrap/scss/_variables-dark';
+@import 'bootstrap/scss/_maps';
+@import 'bootstrap/scss/_mixins';
+@import 'bootstrap/scss/_utilities';
+@import 'bootstrap/scss/_root';
+@import 'bootstrap/scss/_reboot';
 
-@import "bootstrap/scss/_type";
+@import 'bootstrap/scss/_type';
 // @import "bootstrap/scss/_images";
-@import "bootstrap/scss/_containers";
-@import "bootstrap/scss/_card";
-@import "bootstrap/scss/_grid";
+@import 'bootstrap/scss/_containers';
+@import 'bootstrap/scss/_card';
+@import 'bootstrap/scss/_grid';
 // @import "bootstrap/scss/_tables";
 // @import "bootstrap/scss/_forms";
-@import "bootstrap/scss/_buttons";
-@import "bootstrap/scss/_transitions";
-@import "bootstrap/scss/_dropdown";
+@import 'bootstrap/scss/_buttons';
+@import 'bootstrap/scss/_transitions';
+@import 'bootstrap/scss/_dropdown';
 // @import "bootstrap/scss/_button-group";
 // @import "bootstrap/scss/_nav";
 // @import "bootstrap/scss/_navbar"; // Requires nav
 
-
 // @import "bootstrap/scss/_breadcrumb";
 // @import "bootstrap/scss/_accordion";
 // @import "bootstrap/scss/_pagination";
-@import "bootstrap/scss/_badge";
+@import 'bootstrap/scss/_badge';
 // @import "bootstrap/scss/_alert";
 // @import "bootstrap/scss/_progress";
 // @import "bootstrap/scss/_list-group";
-@import "bootstrap/scss/_close";
+@import 'bootstrap/scss/_close';
 // @import "bootstrap/scss/_toasts";
-@import "bootstrap/scss/_modal"; // Requires transitions
-@import "bootstrap/scss/_tooltip";
-@import "bootstrap/scss/_popover";
-@import "bootstrap/scss/_carousel";
-@import "bootstrap/scss/_spinners";
-@import "bootstrap/scss/_offcanvas"; // Requires transitions
-@import "bootstrap/scss/_placeholders";
+@import 'bootstrap/scss/_modal'; // Requires transitions
+@import 'bootstrap/scss/_tooltip';
+@import 'bootstrap/scss/_popover';
+@import 'bootstrap/scss/_carousel';
+@import 'bootstrap/scss/_spinners';
+@import 'bootstrap/scss/_offcanvas'; // Requires transitions
+@import 'bootstrap/scss/_placeholders';
 
 // Helpers
-@import "bootstrap/scss/_helpers";
+@import 'bootstrap/scss/_helpers';
 
 // Utilities
-@import "bootstrap/scss/utilities/_api";
+@import 'bootstrap/scss/utilities/_api';
 
- @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
- .container {
-     min-width: 992px;
- }
- .card-footer {
-     padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-y);
- }
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
+
+// @import 'bootstrap-icons/font/bootstrap-icons';
+
+.badge {
+    --bs-badge-padding-x: 0.4em;
+}
+
+.container {
+    min-width: 992px;
+}
+
+.card-footer {
+    padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-y);
+}
+
+::-webkit-scrollbar {
+    height: 4px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgb(223, 129, 21);
+    -webkit-box-shadow: inset 0 0 6px rgba(90, 90, 90, 0.7);
+}
